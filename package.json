@@ -1,0 +1,25 @@
+{
+  "name": "forkknife",
+  "version": "1.0.0",
+  "description": "Rip off of fortnite made in Comp Sci 2.0 class.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nvcompsci/Forkknife.git"
+  },
+  "keywords": [
+    "videogame",
+    "server",
+    "express",
+    "fetch"
+  ],
+  "author": "nvcompsci",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nvcompsci/Forkknife/issues"
+  },
+  "homepage": "https://github.com/nvcompsci/Forkknife#readme"
+}
