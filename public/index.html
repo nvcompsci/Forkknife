@@ -14,21 +14,27 @@
 
 <script type="text/javascript">
 
-var pie   
+//Global variables accesible by all methods
+var pie
+var storm
     
 function preload() {
+    //Instantiate the characters
     pie = new Character('pumpkin.png')
+    storm = new Storm()
 }    
     
 function setup() {    
-    createCanvas(500,500)
+    createCanvas(1200,800)
 }
-    
+
+//This automatically repeats 60 times / second
 function draw() {
     background(200)
-    //ellipse(100,100,100,100)
-    pie.draw()
+    storm.update()
+    storm.draw()
     pie.update()
+    pie.draw()
 }
     
 function keyPressed() {
@@ -75,6 +81,36 @@ class Character {
         this.x += this.vx
         this.y += this.vy
     }
+}
+    
+class Storm {
+    constructor() {
+        this.width = 1200
+    }
+    
+    /**
+    * Draws the storm as a white circle with red outline
+    */
+    draw() {
+        //sets outline color to red
+        stroke("red")
+        //draws circle in center of screen
+        //"width" is width of canvas
+        //255 represents maximum brightness, i.e. white
+        fill(255)
+        ellipse(width/2, height/2, this.width)
+    }
+    
+    /**
+    * Makes circle shrink over time
+    */
+    update() {
+        //"if" necessary to prevent width going negative
+        if (this.width > 0) {
+            this.width -= 0.3
+        }
+    }
+
 }
 
 </script>
