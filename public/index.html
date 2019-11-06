@@ -17,6 +17,7 @@
 //Global variables accesible by all methods
 var pie
 var storm
+var trees = []
     
 function preload() {
     //Instantiate the characters
@@ -26,6 +27,10 @@ function preload() {
     
 function setup() {    
     createCanvas(1200,800)
+    for (let i = 0; i < 12; i++) {
+        //put new tree x in trees
+        trees.push( random(1200) )
+    }
 }
 
 //This automatically repeats 60 times / second
@@ -35,6 +40,8 @@ function draw() {
     storm.draw()
     pie.update()
     pie.draw()
+    
+    trees.forEach( (treeX) => ellipse(treeX, 10, 10, 10) )
 }
     
 function keyPressed() {
