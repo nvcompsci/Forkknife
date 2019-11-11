@@ -18,11 +18,20 @@
 var pie
 var storm
 var trees = []
+var enemy
+var game = {
+    images: {},
+    projectiles: [],
+    sprites: []
+}
     
 function preload() {
+    game.images.fork = loadImage('fork.png')
     //Instantiate the characters
     pie = new Character('pumpkin.png')
     storm = new Storm()
+    enemy = new EnemyAI('crab.png')
+    game.sprites.push(storm, pie, enemy)
 }    
     
 function setup() {    
@@ -36,12 +45,11 @@ function setup() {
 //This automatically repeats 60 times / second
 function draw() {
     background(200)
-    storm.update()
-    storm.draw()
-    pie.update()
-    pie.draw()
-    
-    trees.forEach( (treeX) => ellipse(treeX, 10, 10, 10) )
+    game.sprites.forEach(sprite => {
+        sprite.update()
+        sprite.draw()
+    })
+    //trees.forEach( (treeX) => ellipse(treeX, 10, 10, 10) )
 }
     
 function keyPressed() {
@@ -66,6 +74,8 @@ function keyReleased() {
         || key === 'w'
         || key === 's'
        ) pie.vy = 0
+    if (keyCode === 32)
+        pie.shoot()
 }
     
 class Character {
@@ -87,6 +97,43 @@ class Character {
     update() {
         this.x += this.vx
         this.y += this.vy
+    }
+    
+    shoot() {
+        const projectile = new Projectile(this.x, this.y, "fork", this.vx)
+        game.projectiles.push(projectile)
+        game.sprites.push(projectile)
+    }
+}
+    
+class EnemyAI extends Character {
+    constructor(imgURL) {
+        super(imgURL)
+        this.x = 1000
+        this.y = 700
+        this.vx = -1
+        this.vy = -1
+    }
+}
+    
+class Projectile {
+    constructor(x, y, type, vx) {
+        this.x = x
+        this.y = y
+        this.vx = vx || 3
+        this.width = 30
+        this.height = 30
+        this.type = type
+        if (type == "fork")
+            this.img = game.images.fork
+    }
+    
+    draw() {
+        image(this.img, this.x, this.y, this.width, this.height)
+    }
+    
+    update() {
+        this.x += this.vx
     }
 }
     
