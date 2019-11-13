@@ -45,11 +45,25 @@ function setup() {
 //This automatically repeats 60 times / second
 function draw() {
     background(200)
-    game.sprites.forEach(sprite => {
-        sprite.update()
-        sprite.draw()
-    })
+    game.sprites
+        .filter(sprite => sprite.active)
+        .forEach(sprite => {
+            sprite.update()
+            sprite.draw()
+        })
     //trees.forEach( (treeX) => ellipse(treeX, 10, 10, 10) )
+}
+    
+function forkVsPlayer (fork) {
+    
+}
+
+function forkVsEnemy (fork) {
+    
+}
+    
+function stormVsCharacter (character) {
+    
 }
     
 function keyPressed() {
@@ -88,6 +102,7 @@ class Character {
         this.height = 50
         this.hp = 100
         this.img = loadImage(imgURL)
+        this.active = true
     }
     
     draw() {
@@ -100,7 +115,7 @@ class Character {
     }
     
     shoot() {
-        const projectile = new Projectile(this.x, this.y, "fork", this.vx)
+        const projectile = new Projectile(this.x + this.width, this.y, "fork", this.vx)
         game.projectiles.push(projectile)
         game.sprites.push(projectile)
     }
@@ -114,6 +129,15 @@ class EnemyAI extends Character {
         this.vx = -1
         this.vy = -1
     }
+    
+    //@Override    
+    update() {
+        this.x += this.vx
+        this.y += this.vy
+        
+        if (2 > 3)
+            this.shoot()
+    }
 }
     
 class Projectile {
@@ -126,6 +150,7 @@ class Projectile {
         this.type = type
         if (type == "fork")
             this.img = game.images.fork
+        this.active = true
     }
     
     draw() {
@@ -140,6 +165,7 @@ class Projectile {
 class Storm {
     constructor() {
         this.width = 1200
+        this.active = true
     }
     
     /**
