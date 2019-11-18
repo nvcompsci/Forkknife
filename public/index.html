@@ -24,6 +24,7 @@ var game = {
     projectiles: [],
     sprites: []
 }
+var score = 0
     
 function preload() {
     game.images.fork = loadImage('fork.png')
@@ -51,19 +52,53 @@ function draw() {
             sprite.update()
             sprite.draw()
         })
+    //Loop through projectiles
+    game.projectiles
+        .filter(obj => obj.active)
+        .forEach(projectile => {
+            forkVsPlayer(projectile)
+            forkVsEnemy(projectile)
+        })
+    stormVsCharacter(pie)
+    stormVsCharacter(enemy)
     //trees.forEach( (treeX) => ellipse(treeX, 10, 10, 10) )
 }
     
 function forkVsPlayer (fork) {
-    
+    if (pie.x < fork.x + fork.width &&
+   pie.x + pie.width > fork.x &&
+   pie.y < fork.y + fork.height &&
+   pie.y + pie.height > fork.y) {
+        // collision detected!
+        fork.active = false
+        pie.hp -= 5
+    }
 }
 
 function forkVsEnemy (fork) {
-    
+    if (enemy.x < fork.x + fork.width &&
+   enemy.x + enemy.width > fork.x &&
+   enemy.y < fork.y + fork.height &&
+   enemy.y + enemy.height > fork.y) {
+        // collision detected!
+        fork.active = false
+        enemy.hp -= 5
+        score += 5
+    }
 }
     
 function stormVsCharacter (character) {
-    
+    const charCenter = {
+        x: character.x + character.width/2,
+        y: character.y + character.height/2
+    }
+    const stormCenter = {
+        x: width / 2,
+        y: height / 2
+    }
+    if (dist(charCenter.x, charCenter.y, stormCenter.x, stormCenter.y) > storm.width / 2) {
+        character.hp -= 10 / 60
+    }
 }
     
 function keyPressed() {
@@ -112,6 +147,8 @@ class Character {
     update() {
         this.x += this.vx
         this.y += this.vy
+        if (this.hp < 0)
+            this.active = false
     }
     
     shoot() {
@@ -128,15 +165,21 @@ class EnemyAI extends Character {
         this.y = 700
         this.vx = -1
         this.vy = -1
+        this.forkDelay = 40
     }
     
     //@Override    
     update() {
         this.x += this.vx
         this.y += this.vy
+        if (this.hp < 0)
+            this.active = false
+        this.forkDelay--
         
-        if (2 > 3)
+        if (this.forkDelay == 0) {
             this.shoot()
+            this.forkDelay = 40
+        }
     }
 }
     
