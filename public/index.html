@@ -7,13 +7,71 @@
     <style type="text/css">
         body {
             margin: 0;
+            text-align: center;
+            background-image: url('pumpkin.png');
+        }
+        canvas {
+           border: 8px groove red;
+        }
+        table {
+            text-align: center;
+            margin: 10px auto;
+            padding: 10px;
+            font-family: sans-serif;
+        }
+        td, th {
+            padding: 10px;
+            border: 3px groove navy;
+        }
+        th {
+            background-color: darkmagenta;
+            color:aliceblue;
+        }
+        td {
+            background-color: white;
+        }
+        h1, h3 {
+            background-color: chocolate;
+            margin: 10px auto;
+            padding: 10px;
+            width: 8em;
+            border: 3px solid brown;
+        }
+        #login {
+            margin: 10px auto;
+            width: 50%;
         }
     </style>
 </head>
 <body>
-
+    <h1>Forknife</h1>
+    <h3>Leaderboard</h3>
+    <table>
+        <tr>
+            <th>Username</th>
+            <th>XP</th>
+            <th>Damage Taken</th>
+            <th>Damage Given</th>
+        </tr>
+        <tr>
+            <td>Billy Bob</td>
+            <td>230</td>
+            <td>30</td>
+            <td>80</td>
+        </tr>
+    </table>
+    
+    <div id="login">
+        <input name="username" />
+        <button>Login to Start</button>
+    </div>
 <script type="text/javascript">
-
+var $button = document.querySelector("button")
+$button.onclick = login
+    
+function login() {
+    alert()
+}
 //Global variables accesible by all methods
 var pie
 var storm
