@@ -170,6 +170,7 @@ class EnemyAI extends Character {
     
     //@Override    
     update() {
+        //debugger
         this.x += this.vx
         this.y += this.vy
         if (this.hp < 0)
@@ -179,6 +180,25 @@ class EnemyAI extends Character {
         if (this.forkDelay == 0) {
             this.shoot()
             this.forkDelay = 40
+        }
+        this.wallBounce()
+    }
+    
+    /*
+    * Moves in opposite direction after leaving storm
+    */
+    wallBounce() {
+        const charCenter = {
+            x: this.x + this.width/2,
+            y: this.y + this.height/2
+        }
+        const stormCenter = {
+            x: width / 2,
+            y: height / 2
+        }
+        if (dist(charCenter.x, charCenter.y, stormCenter.x, stormCenter.y) > storm.width / 2) {
+            this.vx *= -1
+            this.vy *= -1
         }
     }
 }
