@@ -67,10 +67,20 @@
     </div>
 <script type="text/javascript">
 var $button = document.querySelector("button")
+let $textBox = document.querySelector("input[name=username]")
 $button.onclick = login
     
 function login() {
-    alert()
+    //alert()
+    let username = $textBox.value
+    if (username != "") {
+        loop()
+    }
+}
+    
+function addNameToBoard() {
+    let $leaderboard = document.querySelector("table")
+    
 }
 //Global variables accesible by all methods
 var pie
@@ -95,10 +105,11 @@ function preload() {
     
 function setup() {    
     createCanvas(1200,800)
-    for (let i = 0; i < 12; i++) {
+    /*for (let i = 0; i < 12; i++) {
         //put new tree x in trees
         trees.push( random(1200) )
-    }
+    }*/
+    noLoop()
 }
 
 //This automatically repeats 60 times / second

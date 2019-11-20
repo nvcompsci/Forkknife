@@ -1,5 +1,8 @@
 //Review arrays in javascript
 //Create an array (empty)
+var fun = function() {
+    let a = "name";
+}
 let wins = []
 let data = [[],[]]
 //Create an array (with values)
