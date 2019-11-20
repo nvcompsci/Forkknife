@@ -66,21 +66,32 @@
         <button>Login to Start</button>
     </div>
 <script type="text/javascript">
+let username
+    
 var $button = document.querySelector("button")
 let $textBox = document.querySelector("input[name=username]")
 $button.onclick = login
     
 function login() {
     //alert()
-    let username = $textBox.value
+    username = $textBox.value
     if (username != "") {
+        //start game
         loop()
+        //Shouldn't add name until game over
+        //addNameToBoard()
     }
 }
     
-function addNameToBoard() {
+function addNameToBoard(gameInfo) {
     let $leaderboard = document.querySelector("table")
-    
+    let $newRow = document.createElement("tr")
+    $newRow.innerHTML = 
+    `<td>${username}</td>
+    <td>${gameInfo.xp}</td>
+<td>${gameInfo.dt}</td>
+<td>${gameInfo.dg}</td>`
+    $leaderboard.append($newRow)
 }
 //Global variables accesible by all methods
 var pie
@@ -93,6 +104,12 @@ var game = {
     sprites: []
 }
 var score = 0
+var gameInfo = {
+    xp: 0,
+    dt: 0,
+    dg: 0
+}
+
     
 function preload() {
     game.images.fork = loadImage('fork.png')
@@ -105,10 +122,7 @@ function preload() {
     
 function setup() {    
     createCanvas(1200,800)
-    /*for (let i = 0; i < 12; i++) {
-        //put new tree x in trees
-        trees.push( random(1200) )
-    }*/
+    //pause game (waits until login)
     noLoop()
 }
 
@@ -118,8 +132,8 @@ function draw() {
     game.sprites
         .filter(sprite => sprite.active)
         .forEach(sprite => {
-            sprite.update()
             sprite.draw()
+            sprite.update()
         })
     //Loop through projectiles
     game.projectiles
@@ -130,7 +144,6 @@ function draw() {
         })
     stormVsCharacter(pie)
     stormVsCharacter(enemy)
-    //trees.forEach( (treeX) => ellipse(treeX, 10, 10, 10) )
 }
     
 function forkVsPlayer (fork) {
@@ -141,6 +154,7 @@ function forkVsPlayer (fork) {
         // collision detected!
         fork.active = false
         pie.hp -= 5
+        gameInfo.dt += 5
     }
 }
 
@@ -153,6 +167,8 @@ function forkVsEnemy (fork) {
         fork.active = false
         enemy.hp -= 5
         score += 5
+        gameInfo.dg += 5
+        gameInfo.xp += 5
     }
 }
     
@@ -216,8 +232,11 @@ class Character {
     update() {
         this.x += this.vx
         this.y += this.vy
-        if (this.hp < 0)
+        if (this.hp < 0) {
             this.active = false
+            addNameToBoard(gameInfo)
+            noLoop()
+        }
     }
     
     shoot() {
@@ -242,8 +261,11 @@ class EnemyAI extends Character {
         //debugger
         this.x += this.vx
         this.y += this.vy
-        if (this.hp < 0)
+        if (this.hp < 0) {
             this.active = false
+            addNameToBoard(gameInfo)
+            noLoop()
+        }
         this.forkDelay--
         
         if (this.forkDelay == 0) {
