@@ -71,6 +71,14 @@ let username
 var $button = document.querySelector("button")
 let $textBox = document.querySelector("input[name=username]")
 $button.onclick = login
+
+fetch("/leaders")
+    .then( response => response.json() )
+    .then( leaders => {
+        console.log(leaders)
+        leaders.forEach( leader => addLeaderToBoard(leader) )
+    })
+    .catch( err => console.error(err) )    
     
 function login() {
     //alert()
@@ -92,11 +100,23 @@ function login() {
             .then( msg => alert(msg) )
             .catch( err => console.error(err) )
         
+        
         //start game
         loop()
         //Shouldn't add name until game over
         //addNameToBoard()
     }
+}
+    
+function addLeaderToBoard(leader) {
+    let $leaderboard = document.querySelector("table")
+    let $newRow = document.createElement("tr")
+    $newRow.innerHTML = 
+    `<td>${leader.username}</td>
+    <td>${leader.gameInfo.xp}</td>
+<td>${leader.gameInfo.dt}</td>
+<td>${leader.gameInfo.dg}</td>`
+    $leaderboard.append($newRow)
 }
     
 function addNameToBoard(gameInfo) {
